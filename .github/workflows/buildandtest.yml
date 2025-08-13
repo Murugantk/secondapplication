@@ -22,17 +22,17 @@ jobs:
       - name: Build JAR Remotely
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ vars.USERNAME }}@${{ vars.HOST }} << 'EOF'
-            # If project directory doesn't exist, clone it
-            if [ ! -d "~/secondapplication" ]; then
-              git clone https://github.com/Murugantk/secondapplication.git
+            if [ ! -d ~/secondapplication ]; then
+              git clone https://github.com/Murugantk/secondapplication.git ~/secondapplication
             fi
-            cd secondapplication
+            cd ~/secondapplication
             git pull origin main
             mvn clean package -DskipTests
-            mkdir -p staging
-            cp target/*.jar staging/
-            ls -l staging/
+            mkdir -p ~/secondapplication/staging
+            cp target/*.jar ~/secondapplication/staging/
+            ls -l ~/secondapplication/staging/
           EOF
+
 
       - name: Cleanup SSH key
         run: rm -f private_key.pem
