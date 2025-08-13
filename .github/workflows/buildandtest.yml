@@ -1,0 +1,38 @@
+name: Build and Run on Azure VM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on Azure VM
+    runs-on: ubuntu-latest
+    environment: Build Environment
+    outputs:
+      hostname: ${{ vars.HOST }}
+      username: ${{ vars.USERNAME }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Save SSH key to file
+        run: |
+          echo "${{ secrets.AZURESECRET }}" | tr -d '\r' > private_key.pem
+          chmod 600 private_key.pem
+          
+      - name: Build JAR Remotely
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ vars.USERNAME }}@${{ vars.HOST }} << 'EOF'
+            # If project directory doesn't exist, clone it
+            if [ ! -d "~/secondapplication" ]; then
+              git clone https://github.com/Murugantk/secondapplication.git
+            fi
+            cd secondapplication
+            git pull origin main
+            mvn clean package -DskipTests
+            mkdir -p staging
+            cp target/*.jar staging/
+            ls -l staging/
+          EOF
+
+      - name: Cleanup SSH key
+        run: rm -f private_key.pem
