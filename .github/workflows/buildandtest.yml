@@ -21,7 +21,7 @@ jobs:
           
       - name: Build JAR Remotely
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ vars.USERNAME }}@${{ vars.HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ vars.USERNAME }}@${{ vars.HOST }} << 'EOF'
             if [ ! -d ~/secondapplication ]; then
               git clone https://github.com/Murugantk/secondapplication.git ~/secondapplication
             fi
