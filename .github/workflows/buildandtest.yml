@@ -27,10 +27,10 @@ jobs:
             fi
             cd ~/secondapplication
             git pull origin main
-            mvn clean package -DskipTests
-            mkdir -p ~/secondapplication/staging
-            cp target/secondapplication0.0.1-SNAPSHOT.jar ~/secondapplication/staging/
-            ls -l ~/secondapplication/staging/
+            mvn --batch-mode --update-snapshots package
+            mkdir -p staging
+            cp target/secondapplication0.0.1-SNAPSHOT.jar staging/
+            ls -l ~staging/
           EOF
 
 
