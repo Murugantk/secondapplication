@@ -29,7 +29,7 @@ jobs:
             git pull origin main
             mvn clean package -DskipTests
             mkdir -p ~/secondapplication/staging
-            cp target/*.jar ~/secondapplication/staging/
+            cp target/secondapplication0.0.1-SNAPSHOT.jar ~/secondapplication/staging/
             ls -l ~/secondapplication/staging/
           EOF
 
