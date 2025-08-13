@@ -7,7 +7,7 @@ jobs:
   build:
     name: Build on Azure VM
     runs-on: ubuntu-latest
-    environment: Build Environment
+    environment: Productenv
     outputs:
       hostname: ${{ vars.HOST }}
       username: ${{ vars.USERNAME }}
