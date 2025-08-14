@@ -13,11 +13,13 @@ jobs:
       username: ${{ vars.USERNAME }}
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Save SSH key to file
+
+      - name: Setup SSH key
         run: |
-          echo "${{ secrets.AZURESECRET }}" | tr -d '\r' > private_key
-          chmod 600 private_key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AZURESECRET }}" > ~/.ssh/private_key.pem
+          chmod 600 ~/.ssh/private_key.pem
+      
           
       - name: Build JAR Remotely
         run: |
